@@ -12,20 +12,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					getActions().createAgenda()
 				} else if(resp.status == 200){
 					let data = await resp.json()
-					console.log(data)
 					setStore({contacts: data.contacts})
 				} else {
-					alert("An error occured when getting your list of contacts. Please try again later")
-					console.log("The following error occured:", resp.statusText, resp.status, resp.error())
+					alert("An error occurred when getting your list of contacts. Please try again later")
+					console.log("The following error occurred:", resp.statusText, resp.status, resp.error())
 				}
 			},
 			createAgenda: async () => {
 				let resp = await fetch(`${apiUrl}/agendas/${slug}`, {
 					method: "POST",
 					headers: {"content-type": "application/json"},
-					body: {}
+					body: JSON.stringify({})
 				})
-
 			},
 			addContact: async (contact) => {
 				let resp = await fetch(`${apiUrl}/agendas/${slug}/contacts`, {
@@ -37,12 +35,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 					alert("Something went wrong while adding contact!")
 				} else if(resp.ok){
 					getActions().getContacts()
-				} else {
-					alert("An error occured when getting your list of contacts. Please try again later")
-					console.log("The following error occured:", resp.statusText, resp.status, resp.error())
 				}
 			},
-			editConact: async (contact) => {
+			editContact: async (contact) => {
 				let resp = await fetch(`${apiUrl}/agendas/${slug}/contacts/${contact.id}`, {
 					method: "PUT",
 					headers: {"content-type": "application/json"},
@@ -52,9 +47,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					alert("Something went wrong while editing contact!")
 				} else if(resp.ok){
 					getActions().getContacts()
-				} else {
-					alert("An error occured when getting your list of contacts. Please try again later")
-					console.log("The following error occured:", resp.statusText, resp.status, resp.error())
+				}
+			},
+			deleteContact: async (id) => {
+				let resp = await fetch(`${apiUrl}/agendas/${slug}/contacts/${id}`, {
+					method: "DELETE"
+				})
+				if(!resp.ok){
+					alert("Something went wrong while deleting contact!")
+				} else if(resp.ok){
+					getActions().getContacts()
 				}
 			}
 		}

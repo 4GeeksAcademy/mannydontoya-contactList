@@ -1,11 +1,11 @@
-
-import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-
 export const AddContacts = () => {
-    const { store, actions } = useContext(Context);
+    const { actions } = useContext(Context);
+    const navigate = useNavigate();
+
     function handleSubmit(e){
         e.preventDefault()
         const contact = {
@@ -15,7 +15,9 @@ export const AddContacts = () => {
             address: e.target.address.value
         }
         actions.addContact(contact)
+        navigate("/")
     }
+
     return (
         <div className="container">
             <div>
@@ -23,25 +25,24 @@ export const AddContacts = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Full Name</label>
-                        <input name = "name" type="text" className="form-control" placeholder="Full Name" />
+                        <input name="name" type="text" className="form-control" placeholder="Full Name" required />
                     </div>
                     <div className="form-group">
                         <label>Email</label>
-                        <input name = "email" type="email" className="form-control" placeholder="Enter email" />
+                        <input name="email" type="email" className="form-control" placeholder="Enter email" required />
                     </div>
                     <div className="form-group">
                         <label>Phone</label>
-                        <input name = "phone" type="phone" className="form-control" placeholder="Enter phone" />
+                        <input name="phone" type="tel" className="form-control" placeholder="Enter phone" required />
                     </div>
                     <div className="form-group">
                         <label>Address</label>
-                        <input name = "address" type="text" className="form-control" placeholder="Enter address" />
+                        <input name="address" type="text" className="form-control" placeholder="Enter address" required />
                     </div>
                     <button type="submit" className="btn btn-primary form-control">Add Contact</button>
-                    <Link className="mt-3 w-100 text-center" to="/">or get back to contacts</Link>
+                    <Link className="mt-3 w-100 text-center d-block" to="/">or get back to contacts</Link>
                 </form>
             </div>
         </div>
     );
-
 }

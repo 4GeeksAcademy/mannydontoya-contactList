@@ -1,29 +1,31 @@
+// ContactCard.js
 import React from "react";
-const ContactCard = (props) => {
+import { Link } from "react-router-dom";
+
+const ContactCard = ({ contact, onDelete }) => {
     return (
         <li className="list-group-item">
-            <div className="row w-100">
-                <div className="col-12 col-sm-6 col-md-3 px-0">
-                    <img src="http://demos.themes.guide/bodeo/assets/images/users/m101.jpg" alt="" className="rounded-circle mx-auto d-block img-fluid" />
+            <div className="row align-items-center">
+                <div className="col-md-2 mb-3 mb-md-0">
+                    <img src={`https://picsum.photos/id/${contact.id}/200`} alt={contact.name} className="rounded-circle img-fluid" />
                 </div>
-                <div className="col-12 col-sm-6 col-md-9 text-center text-sm-left">
-                    <div className=" float-right">
-                        {/* <button className="btn" onClick={() => this.props.history.push('/edit')}><i className="fas fa-pencil-alt mr-3"></i></button>  */}
-                        {/* <button className="btn" onClick={() => this.props.onDelete()}><i className="fas fa-trash-alt"></i></button> */}
-                    </div>
-                    <label className="name lead">{props.contact?.name}</label>
-                    <br />
-                    <i className="fas fa-map-marker-alt text-muted mr-3"></i>
-                    <span className="text-muted">{props.contact?.address}</span>
-                    <br />
-                    <span className="fa fa-phone fa-fw text-muted mr-3" data-toggle="tooltip" title="" data-original-title="(870) 288-4149"></span>
-                    <span className="text-muted small">{props.contact?.phone}</span>
-                    <br />
-                    <span className="fa fa-envelope fa-fw text-muted mr-3" data-toggle="tooltip" data-original-title="" title=""></span>
-                    <span className="text-muted small text-truncate">{props.contact?.email}</span>
+                <div className="col-md-8 mb-3 mb-md-0">
+                    <h5 className="mb-1">{contact.name}</h5>
+                    <p className="mb-1"><i className="fas fa-map-marker-alt mr-2"></i>{contact.address}</p>
+                    <p className="mb-1"><i className="fas fa-phone mr-2"></i>{contact.phone}</p>
+                    <p className="mb-0"><i className="fas fa-envelope mr-2"></i>{contact.email}</p>
+                </div>
+                <div className="col-md-2 text-md-right">
+                    <Link to={`/edit/${contact.id}`} className="btn btn-warning btn-sm mr-2">
+                        <i className="fas fa-pencil-alt"></i>
+                    </Link>
+                    <button className="btn btn-danger btn-sm" onClick={() => onDelete(contact.id)}>
+                        <i className="fas fa-trash-alt"></i>
+                    </button>
                 </div>
             </div>
         </li>
     );
 }
-export default ContactCard
+
+export default ContactCard;
