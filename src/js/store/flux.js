@@ -19,8 +19,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("The following error occured:", resp.statusText, resp.status, resp.error())
 				}
 			},
-			createAgenda: () => {
+			createAgenda: async () => {
+				let resp = await fetch(`${apiUrl}/agendas/${slug}`, {
+					method: "POST",
+					headers: {"content-type": "application/json"},
+					body: {}
+				})
 
+			},
+			addContact: async (contact) => {
+				let resp = await fetch(`${apiUrl}/agendas/${slug}/contacts`, {
+					method: "POST",
+					headers: {"content-type": "application/json"},
+					body: JSON.stringify(contact)
+				})
+				if(!resp.ok){
+					alert("Something went wrong while adding contact!")
+				} else if(resp.ok){
+					getActions().getContacts()
+				} else {
+					alert("An error occured when getting your list of contacts. Please try again later")
+					console.log("The following error occured:", resp.statusText, resp.status, resp.error())
+				}
+			},
+			editConact: async (contact) => {
+				let resp = await fetch(`${apiUrl}/agendas/${slug}/contacts/${contact.id}`, {
+					method: "PUT",
+					headers: {"content-type": "application/json"},
+					body: JSON.stringify(contact)
+				})
+				if(!resp.ok){
+					alert("Something went wrong while editing contact!")
+				} else if(resp.ok){
+					getActions().getContacts()
+				} else {
+					alert("An error occured when getting your list of contacts. Please try again later")
+					console.log("The following error occured:", resp.statusText, resp.status, resp.error())
+				}
 			}
 		}
 	};
